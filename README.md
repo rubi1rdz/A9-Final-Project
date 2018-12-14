@@ -8,15 +8,15 @@
 
 
 This repository contains:
-- Final Report in PDF for our Project
-- R code used to run our Data Analysis which included:
+- Final Report in **PDF** for our Project
+- **R code** used to run our Data Analysis which included:
     - EDA & CDA
          - Single & Multivariable Linear Regressions 
          - Forward Stepwise BIC
-- Excel files used for our analysis and R code    
-- Link to our Google Drive for additional information
+- **Excel** files used for our analysis and R code    
+- Link to our Google **Drive** for additional information
     - https://drive.google.com/open?id=1U-CXb-QWDrWhBE8wCPDU4QS9EQUiBIgp
-- Link to our StoryMap which includes interactive access to our ArcGIS Maps
+- Link to our **StoryMap** which includes interactive access to our ArcGIS Maps
     - https://arcg.is/1fOGne
 
 ![StoryMap1.pgn](StoryMap1.png)
