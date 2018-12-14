@@ -2,7 +2,10 @@
 # A9-Final-Project _Understanding the link between environmental and social determinants of health: A Deep Dive into Indicators_
 
 **Stanford University, Fall 2018**
-_**Team: Sneha & Rubi =)**_
+
+**Team: Sneha & Rubi =)**
+
+
 
 This repository contains:
 - Final Report in PDF for our Project
