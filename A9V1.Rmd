@@ -1,0 +1,263 @@
+---
+title: "R Notebook"
+output:
+  html_notebook: default
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+CEE 224X SUSTAINABLE URBAN SYSTEMS 
+STANFORD UNIVERSITY, FALL 2018
+
+A9 FINAL PROJECT
+
+Team Members: Sneha and Rubi =)
+
+
+FIRST RUN
+
+The First run of a multivariable linear regression model was perforemed for the Scores for SVI Sums. This dataset had less grannular data than the one we used for the final model. At the beginning we wanted to explore the performance of the model by including variables for the Social Vulnerability Index that summed up variables per category. However, we after running the model we saw the variables for two of the four sums were highly significant so we decided to be more grannular and use the individual components of the four categories.  
+
+```{r}
+## First Run (all variables SVI Sums)
+library(readxl)
+NewValueCDC <- read_excel("~/Documents/Documents/CEE224X_Fall2018/Final Project/Combined_SVI_CES_CDC_V2.xlsx")
+
+library(readxl)
+NewValueCDC1 <- read_excel("~/Documents/Documents/CEE224X_Fall2018/Final Project/NewValueCDC1.xlsx")
+
+
+#attach(NewValueCDC)
+cdcLR1 = lm (ValueCDC ~. - AreaSqmiSVI - LongitudeCDC - LatitudeCDC - ScoreCES - FIDSVI - OverallSumSVI - FipsSVI, data=NewValueCDC1)
+summary (cdcLR1)
+
+
+```
+
+As a result of the first regression after removing geographic related variables, the most significant factors were:
+
+Coefficients:
+                        Estimate Std. Error t value Pr(>|t|) 
+(Intercept)            3.705e+00  7.928e-01   4.673 3.35e-06 ***
+SumSETheme1SVI         2.420e+00  1.139e-01  21.250  < 2e-16 ***
+SumHCTheme2SVI         1.839e+00  1.232e-01  14.930  < 2e-16 ***
+PopCountCDC            1.604e-04  3.166e-05   5.069 4.72e-07 ***
+DieselPMCountCES       1.155e-02  3.322e-03   3.478 0.000525 ***
+SolidWasteCES         -4.963e-02  1.463e-02  -3.391 0.000721 ***
+
+Multiple R-squared:  0.7306,	Adjusted R-squared:  0.7261 
+
+After checking the normality of the residuals, we can confirm they are normally distributed, therefore our model is valid.
+
+Given two of them consist of sum of multiple variables for SVIs, we decided to not use sums but use their components, which makes our analysis more granular
+
+
+SECOND RUN
+ 
+The second run consist of a more granular analysis using SVIs independent components instead of Sum of Themes.
+
+The first step was to find the correlations among all the variables
+
+Getting a Flatten Matrix of Correlations
+```{r}
+# ++++++++++++++++++++++++++++
+# flattenCorrMatrix
+# ++++++++++++++++++++++++++++
+# cormat : matrix of the correlation coefficients
+# pmat : matrix of the correlation p-values
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+    data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+
+library(Hmisc)
+res2<-rcorr(as.matrix(Combined_SVI_CES_CDC_V2))
+newCorrMatrix <- flattenCorrMatrix(res2$r, res2$P)
+newCorrMatrix
+
+
+
+# Trying to create a table with the values that are highly correlated (not working yet)
+
+#highCorr <- matrix(,nrow=1800,ncol=5)
+
+
+for (i in seq(1,1830,1)){
+  if (abs(newCorrMatrix[i,3]) > 0.9){
+    #highCorr[i,1] = newCorrMatrix[i,1]
+   # cat("Variable" ,newCorrMatrix[i,1], "is correlated with" ,newCorrMatrix[i,2], "by: ",newCorrMatrix[i,3]  )
+    print ("variable")
+    print(newCorrMatrix[i,1])
+   # highCorr[i,2] = newCorrMatrix[i,2]
+    print ("is correlated with")
+    print(newCorrMatrix[i,2])
+   # highCorr[i,3] = newCorrMatrix[i,3]
+    print ("by: ")
+    print(newCorrMatrix[i,3])
+  }
+}
+
+```
+
+
+THIRD RUN (Multivariable Linear Regression with granular data and cleaned for high correlations)
+
+```{r}
+#attach(Combined_SVI_CES_CDC_V2)
+cdcLR2 = lm (ValueCDC ~. - AreaSqmiSVI - LongitudeCDC - LatitudeCDC - ScoreCES - FIDSVI  - OverallSumSVI - FipsSVI - LowConfLimCDE - HighConfLimCDC - SumHCTheme2SVI - SumHTTheme4SVI - SumMSTTheme3SVI - SumSETheme1SVI - E_PCI, data=Combined_SVI_CES_CDC_V2)
+summary (cdcLR2) # R2 = 0.803
+
+# Plotting residuals to check for normality
+plot(cdcLR2)
+qqnorm(cdcLR2$residuals)
+qqline(cdcLR2$residuals, col='red')
+
+# Finding variables with correlations (correlation matrix)
+CorrelationMatrix <- cor(Combined_SVI_CES_CDC_V2)
+round(CorrelationMatrix, 2)
+```
+ 
+ Residuals were plotted and normality was confirmed which validates our model. The performance has improved from our previous model from 0.7306 to 0.8043 by including more disaggregated data. 
+ 
+  As a summary, the parameters that resulted to be significant were:
+ 
+                         Estimate Std. Error t value Pr(>|t|)    
+(Intercept)            6.789e+00  1.216e+00   5.584 3.00e-08 ***
+PopCountCDC            4.443e-04  4.166e-05  10.664  < 2e-16 ***
+PesticidesCountCES    -5.154e-03  1.493e-03  -3.451 0.000581 ***
+Tox.ReleaseCountCES    5.313e-04  1.515e-04   3.506 0.000474 ***
+SolidWasteCES         -5.269e-02  1.313e-02  -4.013 6.43e-05 ***
+E_PCI                 -2.918e-05  4.998e-06  -5.838 7.06e-09 ***
+EP_POV                 1.184e-01  2.413e-02   4.908 1.07e-06 ***
+EP_NOHSDP              1.329e-01  2.830e-02   4.697 3.00e-06 ***
+EP_GROUPQ             -6.402e-02  2.287e-02  -2.800 0.005210 ** 
+PM2.5CES              -1.530e-01  6.810e-02  -2.247 0.024878 *  
+DieselPMCountCES       8.004e-03  3.790e-03   2.112 0.034945 * 
+EP_AGE17               6.603e-02  2.975e-02   2.220 0.026660 *  
+EP_DISABL              9.785e-02  4.126e-02   2.372 0.017890 * 
+E_POV                 -1.050e-03  4.935e-04  -2.127 0.033655 * 
+
+
+Some EDA to understand the most significant variables
+
+```{r}
+#attach(Combined_SVI_CES_CDC_V2)
+
+
+boxplot(Combined_SVI_CES_CDC_V2$PesticidesCountCES)
+
+summary(Combined_SVI_CES_CDC_V2$PesticidesCountCES)
+
+plot (Combined_SVI_CES_CDC_V2$PesticidesCountCES, Combined_SVI_CES_CDC_V2$ValueCDC)
+cor(Combined_SVI_CES_CDC_V2$PM2.5CES,Combined_SVI_CES_CDC_V2$ValueCDC)
+
+cor(Combined_SVI_CES_CDC_V2$EP_MUNIT, Combined_SVI_CES_CDC_V2$ValueCDC)
+
+cor(Combined_SVI_CES_CDC_V2$ValueCDC, Combined_SVI_CES_CDC_V2$E_PCI)
+plot (Combined_SVI_CES_CDC_V2$E_PCI, Combined_SVI_CES_CDC_V2$ValueCDC)
+
+plot(Combined_SVI_CES_CDC_V2$SolidWasteCES, Combined_SVI_CES_CDC_V2$ValueCDC)
+abline(lm(Combined_SVI_CES_CDC_V2$ValueCDC ~ Combined_SVI_CES_CDC_V2$SolidWasteCES), col="red")
+
+cor(Combined_SVI_CES_CDC_V2$ValueCDC, Combined_SVI_CES_CDC_V2$E_PCI)
+plot(Combined_SVI_CES_CDC_V2$E_PCI, Combined_SVI_CES_CDC_V2$ValueCDC, title(main = "Per Capita Income vs CDC Health Indicator"))
+abline(lm(Combined_SVI_CES_CDC_V2$ValueCDC ~ Combined_SVI_CES_CDC_V2$E_PCI), col="red")
+
+cor(Combined_SVI_CES_CDC_V2$ValueCDC, Combined_SVI_CES_CDC_V2$Tox.ReleaseCountCES)
+plot(Combined_SVI_CES_CDC_V2$Tox.ReleaseCountCES, Combined_SVI_CES_CDC_V2$ValueCDC, title(main = "Toxic Release Count vs CDC Health Indicator"))
+abline(lm(Combined_SVI_CES_CDC_V2$ValueCDC ~ Combined_SVI_CES_CDC_V2$Tox.ReleaseCountCES), col="red")
+
+```
+
+
+FOURTH RUN
+New model with only the 13 variables mentioned above to create our indicator
+
+```{r}
+# Second model using only the 13 main variables
+cdcLR3 = lm (ValueCDC ~ PopCountCDC + PM2.5CES + DieselPMCountCES + PesticidesCountCES + Tox.ReleaseCountCES + SolidWasteCES + EP_PCI + E_POV + EP_POV + EP_NOHSDP + EP_AGE17 + EP_DISABL + EP_GROUPQ , data=Combined_SVI_CES_CDC_V2 )
+summary(cdcLR3) # R2 = 0.742
+
+# Plotting residuals to check for normality
+qqnorm(cdcLR3$residuals)
+qqline(cdcLR3$residuals, col='red')
+```
+
+FIFTH RUN (Running Forward and Backward BIC)
+
+We will try Forward and Backward Stepwise Bayesian Information Criterion (BIC) to find if there is a better model for our indicator
+
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+library(data.table) 
+library(lattice) 
+library(RColorBrewer)
+library(leaps) 
+```
+
+
+
+```{r}
+# Run BIC  
+regfit.fwd=regsubsets(ValueCDC ~. - AreaSqmiSVI - LongitudeCDC - LatitudeCDC - ScoreCES - FIDSVI  - OverallSumSVI - FipsSVI - LowConfLimCDE - HighConfLimCDC - SumHCTheme2SVI - SumHTTheme4SVI - SumMSTTheme3SVI - SumSETheme1SVI - E_PCI , data=Combined_SVI_CES_CDC_V2, method="forward") 
+regfit.bwd = regsubsets(ValueCDC ~. - AreaSqmiSVI - LongitudeCDC - LatitudeCDC - ScoreCES - FIDSVI  - OverallSumSVI - FipsSVI - LowConfLimCDE - HighConfLimCDC - SumHCTheme2SVI - SumHTTheme4SVI - SumMSTTheme3SVI - SumSETheme1SVI - E_PCI , data=Combined_SVI_CES_CDC_V2, method="backward") 
+
+# Plot BIC Results
+par(mfrow=c(1,2)) 
+plot(regfit.fwd, main="Forward Stepwise BIC") # Run one by one on the console for better visualization
+plot(regfit.bwd, main="Backward Stepwise BIC")
+```
+The BIC figures show in black columns the variables that better explain the behavior of the CDC Health index. Meaning that by including only this variables in a new model will give us the best performance we can get with this data to explain CDC. However, we didn't use this approach because the most significant variables were mainly socioeconomic and only one environmental. Since we wanted to create an indicator that would include both categories, we decided to use for our indicator the multivariable linear regression model. 
+
+SCALED INDICES 
+
+In order to understand how our index compared to those used as sources of data CES, SVI and CDC, we created boxplots to analyze the distribution across the Bay Area. This plot will give us a reference point when we analyze the scaled indices in ArcGIS. 
+
+```{r}
+
+# Boxplots for Indices Comparison
+
+par(mfrow=c(1,4))
+
+boxplot(A9_Index_CDC_CES_SVI_Income$ScaledIndex, col ="yellow", ylim = c(0,10))
+title (main = "NEW INDEX \n (Health)")
+
+boxplot(A9_Index_CDC_CES_SVI_Income$ScaledCDC, col="red", ylim = c(0,10))
+title(main = "CDC \n (Health)")
+
+boxplot(A9_Index_CDC_CES_SVI_Income$ScaledCES, col="green", ylim = c(0,10))
+title(main = "CES \n (Environmental)")
+
+boxplot(A9_Index_CDC_CES_SVI_Income$ScaledSVI, col = "blue", ylim = c(0,10))
+title((main = "SVI \n (Sociodemographic)"))
+
+```
+
+
+```{r}
+# Summary of Indices
+
+print ("Our Index")
+summary(A9_Index_CDC_CES_SVI_Income$ScaledIndex) # Our Index
+
+print ("CDC Index")
+summary(A9_Index_CDC_CES_SVI_Income$ScaledCDC) # CDC
+
+print ("CES Index")
+summary(A9_Index_CDC_CES_SVI_Income$ScaledCES) # CES
+
+print ("SVI Index")
+summary(A9_Index_CDC_CES_SVI_Income$ScaledSVI) # SVI
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
