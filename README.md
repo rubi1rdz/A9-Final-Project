@@ -21,6 +21,7 @@ This repository contains:
     - Median Household Income
     - Toxic Waste Releases
     - Pesticides Counts
+    - https://arcg.is/OKmL8
     
 - Link to our **StoryMap** which includes interactive access to our ArcGIS Maps
     - https://arcg.is/1fOGne
