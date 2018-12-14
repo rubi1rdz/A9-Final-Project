@@ -14,6 +14,6 @@ This repository includes
 - Link to our StoryMap 
 https://arcg.is/1fOGne
 
-![StoryMap.pgn](StoryMap.png)
+![StoryMap1.pgn](StoryMap1.png)
 
 
