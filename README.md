@@ -12,5 +12,8 @@ This repository includes
     - Forward Stepwise BIC
     
 - Link to our StoryMap 
-
 https://arcg.is/1fOGne
+
+![StoryMap.pgn](StoryMap.png)
+
+
