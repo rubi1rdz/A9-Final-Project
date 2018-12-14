@@ -13,7 +13,7 @@ This repository includes
     - EDA & CDA
          - Single & Multivariable Linear Regressions 
          - Forward Stepwise BIC
-    
+- Excel files used for our analysis and R code    
 - Link to our StoryMap 
 https://arcg.is/1fOGne
 
