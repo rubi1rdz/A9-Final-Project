@@ -25,7 +25,7 @@ This repository contains:
     
 ![IndexDashboard.PNG](IndexDashboard.PNG)
     
-- Link to our **StoryMap** which includes interactive access to our ArcGIS Maps
+- Link to our **StoryMap** (Our Presentation) which includes interactive access to our ArcGIS Maps
     - https://arcg.is/1fOGne
 
 ![StoryMap1.pgn](StoryMap1.png)
