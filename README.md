@@ -1,11 +1,8 @@
 # CEE 224X Sustainable Urban Systems
-# A9-Final-Project
+# A9-Final-Project _Understanding the link between environmental and social determinants of health: A Deep Dive into Indicators_
 
-**Understanding the link between environmental and social determinants of health: A Deep Dive into Indicators**
-
-_Stanford University, Fall 2018_
-
-_Team: Sneha & Rubi =)_
+**Stanford University, Fall 2018**
+_**Team: Sneha & Rubi =)**_
 
 This repository contains:
 - Final Report in PDF for our Project
