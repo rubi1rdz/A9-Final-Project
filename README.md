@@ -7,7 +7,7 @@ Stanford University, Fall 2018
 
 Team: Sneha & Rubi =)
 
-This repository includes
+This repository contains:
 - Final Report in PDF for our Project
 - R code used to run our Data Analysis which included:
     - EDA & CDA
