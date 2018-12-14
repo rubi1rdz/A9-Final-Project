@@ -22,7 +22,7 @@ This repository contains:
     - Toxic Waste Releases
     - Pesticides Counts
     - https://arcg.is/OKmL8
-![IndexDashboard.png](IndexDashboard.png)
+![IndexDashboard.PNG](IndexDashboard.PNG)
     
 - Link to our **StoryMap** which includes interactive access to our ArcGIS Maps
     - https://arcg.is/1fOGne
