@@ -9,9 +9,10 @@ Team: Sneha & Rubi =)
 
 This repository includes
 - Final Report in PDF for our Project
-- R code used to run our Data Analysis which included
-    - Single & Multivariable Linear Regressions 
-    - Forward Stepwise BIC
+- R code used to run our Data Analysis which included:
+    - EDA & CDA
+         - Single & Multivariable Linear Regressions 
+         - Forward Stepwise BIC
     
 - Link to our StoryMap 
 https://arcg.is/1fOGne
