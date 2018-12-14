@@ -15,9 +15,9 @@ This repository contains:
          - Forward Stepwise BIC
 - Excel files used for our analysis and R code    
 - Link to our Google Drive for additional information
--- https://drive.google.com/open?id=1U-CXb-QWDrWhBE8wCPDU4QS9EQUiBIgp
+    - https://drive.google.com/open?id=1U-CXb-QWDrWhBE8wCPDU4QS9EQUiBIgp
 - Link to our StoryMap which includes interactive access to our ArcGIS Maps
--- https://arcg.is/1fOGne
+    - https://arcg.is/1fOGne
 
 ![StoryMap1.pgn](StoryMap1.png)
 
