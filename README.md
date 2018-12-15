@@ -9,7 +9,7 @@
 
 This repository contains:
 - Final Report in **PDF** for our Project
-    - Here link for Google Drive 
+    - Here link for the google doc
         - https://drive.google.com/open?id=1tWSQGecWmZfZt7XJz6giX9ewzbRoW-WKuYcoi7b4H5s
 - **R code** used to run our Data Analysis which included:
     - EDA & CDA
