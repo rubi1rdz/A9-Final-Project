@@ -16,7 +16,7 @@ This repository contains:
 - **Excel** files used for our analysis and R code    
 - Link to Google **Drive** for additional information
     - https://drive.google.com/open?id=1U-CXb-QWDrWhBE8wCPDU4QS9EQUiBIgp
-- Link to ArcGIS dashboard created for this project which includes layers for:
+- Link to **ArcGIS dashboard** created for this project which includes layers for:
     - Our Indicator
     - Median Household Income
     - Toxic Waste Releases
